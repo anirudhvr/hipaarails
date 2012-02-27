@@ -22,6 +22,7 @@ module HIPAARails
                     config_file = Rails.configuration.root.to_s +
                         "/config/#{CONFIG_FILE_NAME}"
                     @options  = YAML.load_file(config_file)
+                    @options.symbolize_keys! # Rails-specific function
                 end
             rescue StandardError => e
                 @error = true

@@ -7,6 +7,8 @@ require 'singleton'
 module HIPAARails
     autoload :Version, 'hipaarails/version'
 
+    attr_accessor @@config
+
     def self.enabled=(val)
         return HIPAARails.Config.enabled = val
     end
@@ -16,22 +18,20 @@ module HIPAARails
         !!HIPAARails.Config.enabled
     end
 
-    def self.ask_for_passphrase
-        puts "Enter passphrase"
-        pass = ask_for_password
-        return pass
+    def self.generate_key_with_default_passphrase
+        self.config
+        self.generate_key(@@config.options[:default_passphrase], 
+                          @@config.options[:default_salt])
     end
 
     def self.generate_key_with_default_salt
         self.config
-        self.generate_key(@@config.options[:default_salt])
+        pass = self.ask_for_password
+        self.generate_key(pass, @@config.options[:default_salt])
     end
 
-    def self.generate_key(salt=nil)
+    def self.generate_key(pass, salt=nil)
         self.config
-
-        print "Enter passphrase: "
-        pass = self.ask_for_password
 
         if @@config.error?
             raise StandardError, @@config.error_message
@@ -102,6 +102,7 @@ module HIPAARails
     end
 
     def self.ask_for_password
+        print "Enter passphrase: "
         echo_off
         trap("INT") do
             echo_on
