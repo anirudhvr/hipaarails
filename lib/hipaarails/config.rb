@@ -16,6 +16,7 @@ module HIPAARails
                 key_derivation_cost: 1,
                 min_passphrase_length: 10,
                 default_salt: "thisisabadsalt;changeme1",
+                default_passphrase: "thisisabadpassphrase;changeme1",
                 cipher: 'aes-128-cbc'}
             begin
                 if config_file.nil? && !Rails.nil?

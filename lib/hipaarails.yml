@@ -26,3 +26,10 @@ min_passphrase_length: 10
 # rc4 rc4-40 seed seed-cbc seed-cfb seed-ecb seed-ofb zlib
 cipher: aes-128-cbc
 
+
+development:
+    default_passphrase: "thisisabadpassphrase;changeme1"
+
+production:
+    default_passphrase: ""
+
