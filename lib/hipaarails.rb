@@ -7,8 +7,6 @@ require 'singleton'
 module HIPAARails
     autoload :Version, 'hipaarails/version'
 
-    attr_accessor @@config
-
     def self.enabled=(val)
         return HIPAARails.Config.enabled = val
     end
