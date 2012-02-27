@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
   s.email    = 'anirudhvr@gmail.com'
   s.homepage = 'http://github.com/oakenshield/hipaarails'
   s.signing_key = '/home/ubuntu/.ssh/gem-private_key.pem'
-  s.cert_chain = ['gem-public_cert.pem']
+  s.cert_chain = ['/home/ubuntu/.ssh/gem-public_cert.pem']
 
   s.has_rdoc = false
   s.rdoc_options = ['--line-numbers', '--inline-source', '--main', 'README.rdoc']
@@ -29,8 +29,11 @@ Gem::Specification.new do |s|
   s.files       = `git ls-files`.split("\n")
   s.test_files  = `git ls-files -- {test,spec,features}/*`.split("\n")
 
+
+  s.add_dependency('rails', '~> 3')
   s.add_dependency('attr_encrypted', ['~> 1.2.0'])
   s.add_dependency('paper_trail', ['~> 2.6.0'])
+
   s.add_development_dependency('activerecord', ['>= 2.0.0'])
   s.add_development_dependency('datamapper')
   s.add_development_dependency('mocha')

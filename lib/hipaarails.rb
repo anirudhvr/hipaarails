@@ -1,8 +1,8 @@
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 
-
 require 'openssl'
 require 'hipaarails/config'
+require 'singleton'
 
 module HIPAARails
     autoload :Version, 'hipaarails/version'
@@ -22,23 +22,36 @@ module HIPAARails
         return pass
     end
 
-    def self.generate_key
+    def self.generate_key_with_default_salt
+        self.config
+
+        self.generate_key(@@config.options[:default_salt])
+    end
+
+    def self.generate_key(salt=nil)
+        self.config
+
+        print "Enter passphrase: "
         pass = self.ask_for_password
-        if HIPAARails::Config.error?
-            raise StandardError, HIPAARails::Config.error_message
+
+        if @@config.error?
+            raise StandardError, @@config.error_message
             return nil
         end
 
-        unless validate_password(pass, HIPAARails::Config.options[:min_passphrase_length])
+        unless validate_password(pass, @@config.options[:min_passphrase_length])
             raise StandardError, "Passphrase should be at least " +
-                "#{HIPAARails::Config.options[:min_passphrase_length]} chars" 
+                "#{@@config.options[:min_passphrase_length]} chars" 
         end
 
-        case HIPAARails::Config.options[:key_derivation_algorithm]
+        require 'securerandom'
+        case @@config.options[:key_derivation_algorithm]
         when 'pbkdf2'
-            salt =
-                SecureRandom.base64(HIPAARails::Config.options[:key_salt_length])
-            iter = HIPAARails::Config.options[:key_derivation_cost * 1000]
+            if salt.nil?
+                salt =
+                    SecureRandom.base64(@@config.options[:key_salt_length])
+            end
+            iter = @@config.options[:key_derivation_cost].to_i * 1000
             keylen = 128 # FIXME
             key = OpenSSL::PKCS5::pbkdf2_hmac_sha1(pass, salt, iter,
                                                    keylen)
@@ -52,6 +65,10 @@ module HIPAARails
 
     private
 
+    def self.validate_password(pass, length)
+        pass.length >= length ? true : false
+    end
+
     def self.config
         # Config is a Singleton class
         @@config ||= HIPAARails::Config.instance
@@ -60,7 +77,7 @@ module HIPAARails
     #
     # Auth prototypes lifted from Heroku client code
     #
-    def with_tty(&block)
+    def self.with_tty(&block)
         return unless $stdin.tty?
         begin
             yield
@@ -69,29 +86,29 @@ module HIPAARails
         end
     end
 
-    def ask
-        $STDIN.gets.strip
+    def self.ask
+        $stdin.gets.strip
     end
 
-    def echo_off
+    def self.echo_off
         with_tty do
             system "stty -echo"
         end
     end
 
-    def echo_on
+    def self.echo_on
         with_tty do
             system "stty echo"
         end
     end
 
-    def ask_for_password
+    def self.ask_for_password
         echo_off
         trap("INT") do
             echo_on
             exit
         end
-        password = ask
+        password = self.ask
         puts
         echo_on
         return password

@@ -1,3 +1,4 @@
+require 'singleton'
 require 'yaml'
 
 module HIPAARails
@@ -20,6 +21,7 @@ module HIPAARails
                     @options = { key_derivation_algorithm: 'pbkdf2',
                         key_derivation_cost: 1,
                         min_passphrase_length: 10,
+                        default_salt: "thisisabadsalt;changeme!",
                         cipher: 'aes-128-cbc'}
                 end
             rescue StandardError => e
