@@ -10,7 +10,7 @@ key_derivation_cost: 1
 key_salt_length: 16
 
 # default salt; #FIXME - this should change for each installation
-default_salt: "thisisabadsalt;changeme!"
+default_salt: "thisisabadsalt;changeme1"
 
 # passphrase length
 min_passphrase_length: 10

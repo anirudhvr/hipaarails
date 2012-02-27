@@ -11,18 +11,17 @@ module HIPAARails
         def initialize(config_file=nil)
             @enabled = true
             @error = false
+            # default options
+            @options = { key_derivation_algorithm: 'pbkdf2',
+                key_derivation_cost: 1,
+                min_passphrase_length: 10,
+                default_salt: "thisisabadsalt;changeme1",
+                cipher: 'aes-128-cbc'}
             begin
                 if config_file.nil? && !Rails.nil?
                     config_file = Rails.configuration.root.to_s +
                         "/config/#{CONFIG_FILE_NAME}"
                     @options  = YAML.load_file(config_file)
-                else
-                    # default options
-                    @options = { key_derivation_algorithm: 'pbkdf2',
-                        key_derivation_cost: 1,
-                        min_passphrase_length: 10,
-                        default_salt: "thisisabadsalt;changeme!",
-                        cipher: 'aes-128-cbc'}
                 end
             rescue StandardError => e
                 @error = true

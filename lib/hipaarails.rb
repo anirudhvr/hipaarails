@@ -24,7 +24,6 @@ module HIPAARails
 
     def self.generate_key_with_default_salt
         self.config
-
         self.generate_key(@@config.options[:default_salt])
     end
 
