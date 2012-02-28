@@ -36,7 +36,21 @@ Usage
    if a User model has the following accessible attributes: 
    `attr_accessible :name, :email, :password, :password_confirmation`
    It can have the email attribute transparently encrypted as follows:
-   `attr_encrypted :email, key: SampleApp::Application.config.hipaarails_passphrase,
-                        cipher: SampleApp::Application.config.hipaarails_cipher`
+   `attr_encrypted :email, `
+      `key: SampleApp::Application.config.hipaarails_passphrase,`
+      `cipher: SampleApp::Application.config.hipaarails_cipher`
+6. On rails server start, it will ask you for a passphrase that will be converted to the 
+encryption/decryption key used to read/write to the DB. In dev. environment, this is 
+a hardcoded key but it will ask you each time you boot the server in the prod environment.
+7. Heroku causes a bit of a problem because you cannot see the 'rails server' console. Instead,
+set the passphrase as a heroku config variable prior to git push like so: 
+`heroku config:add ENCRYPTION_PASSPHRASE=passphrase`
+
+TODO
+====
+1. Implement migration generator to migrate an existing table with unencrypted fields to one with encrypted fields
+2. Figure out how to ask for passphrase on heroku rails server start
+3. Implement paper_trail integration for encrypted feature accesses/changes
+4. Integrate with key management server
 
   
