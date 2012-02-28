@@ -7,6 +7,10 @@ require 'singleton'
 module HIPAARails
     autoload :Version, 'hipaarails/version'
 
+    def self.config
+        HIPAARails.Config.instance
+    end
+
     def self.enabled=(val)
         return HIPAARails.Config.enabled = val
     end
