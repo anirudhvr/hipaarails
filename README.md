@@ -40,4 +40,11 @@ Usage
       `key: SampleApp::Application.config.hipaarails_passphrase,`
       `cipher: SampleApp::Application.config.hipaarails_cipher`
 
+TODO
+====
+1. Implement migration generator to migrate an existing table with unencrypted fields to one with encrypted fields
+2. Figure out how to ask for passphrase on heroku rails server start
+3. Implement paper_trail integration for encrypted feature accesses/changes
+4. Integrate with key management server
+
   
