@@ -36,7 +36,8 @@ Usage
    if a User model has the following accessible attributes: 
    `attr_accessible :name, :email, :password, :password_confirmation`
    It can have the email attribute transparently encrypted as follows:
-   `attr_encrypted :email, key: SampleApp::Application.config.hipaarails_passphrase,
-                        cipher: SampleApp::Application.config.hipaarails_cipher`
+   `attr_encrypted :email, `
+      `key: SampleApp::Application.config.hipaarails_passphrase,`
+      `cipher: SampleApp::Application.config.hipaarails_cipher`
 
   
