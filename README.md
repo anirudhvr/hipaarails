@@ -1,6 +1,8 @@
 HIPAARails
 ==========
 
+*Note*: This gem is no longer being maintained and is open-sourced in the hopes that it may help/guide someone with similar problems. If you would like to maintain or take-over this gem, please let me know.            
+
 This gem is intended to be a rails plugin that can make HIPAA compliance
 for a Rails 3+ developer easy by allowing easy encryption of sensitive
 model attributes, as well as comprehensive audit/logging of these
